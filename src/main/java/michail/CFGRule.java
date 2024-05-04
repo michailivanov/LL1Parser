@@ -48,6 +48,4 @@ class CFGRule {
                 ", left=" + left +
                 '}';
     }
-
-    // toString method
 }

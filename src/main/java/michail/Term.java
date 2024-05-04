@@ -1,7 +1,5 @@
 package michail;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Set;
 
 public abstract class Term {
@@ -15,14 +13,6 @@ public abstract class Term {
 
     public abstract boolean epsilonable(Set<Term> exclude);
 
-    public static List<Term> generate(String... names) {
-        List<Term> terms = new ArrayList<>();
-        for (String name : names) {
-            terms.add(new Terminal(name));
-        }
-        return terms;
-    }
-
     public String getName() {
         return name;
     }
@@ -33,7 +23,5 @@ public abstract class Term {
                 "name='" + name + '\'' +
                 '}';
     }
-
-    // Equals and hashCode methods based on name
 }
 

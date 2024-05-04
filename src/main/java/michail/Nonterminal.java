@@ -44,20 +44,6 @@ class Nonterminal extends Term {
     }
 
 
-//    @Override
-//    public boolean epsilonable(Set<Term> exclude) {
-//        if (exclude == null) {
-//            exclude = new HashSet<>();
-//        }
-//        exclude.add(this);
-//        for (Expression expression : reachable) {
-//            if (expression.epsilonable(exclude)) {
-//                return true;
-//            }
-//        }
-//        return false;
-//    }
-
     public Set<Terminal> follow(Set<Nonterminal> exclude) {
         if (exclude == null) {
             exclude = new HashSet<>();
@@ -91,15 +77,7 @@ class Nonterminal extends Term {
         return destinations;
     }
 
-    public void setDestinations(List<CFGRule> destinations) {
-        this.destinations = destinations;
-    }
-
     public List<Expression> getReachable() {
         return reachable;
-    }
-
-    public void setReachable(List<Expression> reachable) {
-        this.reachable = reachable;
     }
 }
