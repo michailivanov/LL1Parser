@@ -27,15 +27,15 @@ public class Main {
                     scanner.nextLine(); // Consume the invalid input
                     continue; // Restart the loop
                 }
-                String inputString = choiceString(choice, options, scanner);
+
+                LL1 ll1Parser = new LL1(grammar.getRules(), List.of(".", ",", "!"));
+
+                String inputString = choiceString(choice, options, scanner, ll1Parser);
 
                 if(inputString != null && Character.isLowerCase(inputString.charAt(0))) // if the first char is lower
                 {
                     System.out.println("A sentence should start with a capital letter! Try again.");
                 } else if (inputString != null) {
-
-
-                    LL1 ll1Parser = new LL1(grammar.getRules(), List.of(".", ",", "!"));
                     List<Terminal> tokenizedInput = LL1.tokenizeInput(inputString, grammar.getTerminals()); // Tokenize the input string
                     Iterable<Expression> expressions = ll1Parser.parse(tokenizedInput);
                     ll1Parser.printParsingSteps(expressions);
@@ -47,7 +47,7 @@ public class Main {
             } catch (Exception e) {
                 System.out.println("Error: " + e.getMessage());
             }
-        } while (choice != options.size() + 2);
+        } while (choice != options.size() + 3);
     }
 
 
@@ -58,7 +58,8 @@ public class Main {
             System.out.println((i + 1) + ". " + options.get(i));
         }
         System.out.println((options.size() + 1) + ". Enter custom input");
-        System.out.println((options.size() + 2) + ". Exit");
+        System.out.println((options.size() + 2) + ". Generate random sentence.");
+        System.out.println((options.size() + 3) + ". Exit");
         System.out.print("Enter your choice: ");
     }
 
@@ -77,7 +78,7 @@ public class Main {
         return options;
     }
 
-    private static String choiceString(int choice, List<String> options, Scanner scanner) {
+    private static String choiceString(int choice, List<String> options, Scanner scanner, LL1 ll1Parser) {
         if (choice >= 1 && choice <= options.size()) {
             System.out.println("You chose " + choice + ". " + options.get(choice - 1));
             return options.get(choice - 1);
@@ -87,8 +88,12 @@ public class Main {
             String customInput = scanner.nextLine();
             System.out.println("You entered: " + customInput);
             return customInput;
+        } else if (choice == options.size() + 2) {
+            String random = ll1Parser.generate();
+            System.out.println("Generated Sentence: " + random);
+            return random;
         }
-        else if (choice == options.size() + 2) {
+        else if (choice == options.size() + 3) {
             System.out.println("Exiting...");
         } else {
             System.out.println("Invalid choice. Please try again.");

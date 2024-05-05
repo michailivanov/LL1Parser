@@ -186,7 +186,7 @@ public class LL1 {
         return str.substring(0, index).toUpperCase() + str.substring(index);
     }
 
-    public static String capitalizeLetterWithI(String str) {
+    public static String unCapitalizeLetterWithI(String str) {
         if(str.charAt(0) != 'I'){
             return str.substring(0, 1).toLowerCase() + str.substring(1);
         }
@@ -195,7 +195,7 @@ public class LL1 {
 
     public static List<Terminal> tokenizeInput(String input, List<Terminal> terminals) {
         List<Terminal> tokens = new ArrayList<>();
-        String[] words = capitalizeLetterWithI(input).split("\\s+|(?=[.,!])|(?<=[.,!])");
+        String[] words = unCapitalizeLetterWithI(input).split("\\s+|(?=[.,!])|(?<=[.,!])");
         for (String word : words) {
             boolean found = false;
             for (Terminal terminal : terminals) {
@@ -212,4 +212,39 @@ public class LL1 {
         return tokens;
     }
 
+    public String generate() {
+        StringBuilder sentence = new StringBuilder();
+        Stack<Term> stack = new Stack<>();
+        stack.push(initial);
+
+        while (!stack.isEmpty()) {
+            Term top = stack.pop();
+
+            if (top instanceof Terminal) {
+                if(!((Terminal) top).isEpsilon()){
+                    if (!dontNeedSpaceBefore(top.getName())) {
+                        sentence.append(" ");
+                    }
+                    sentence.append(top.getName());
+                }
+            } else if (top instanceof Nonterminal) {
+                Nonterminal nonTerminal = (Nonterminal) top;
+                List<CFGRule> applicableRules = new ArrayList<>();
+
+                for (Map.Entry<Terminal, CFGRule> entry : table.get(nonTerminal).entrySet()) {
+                    applicableRules.add(entry.getValue());
+                }
+
+                if (!applicableRules.isEmpty()) {
+                    Random random = new Random();
+                    CFGRule rule = applicableRules.get(random.nextInt(applicableRules.size()));
+                    List<Term> rhs = new ArrayList<>(rule.getRight().getTerms());
+                    Collections.reverse(rhs);
+                    stack.addAll(rhs);
+                }
+            }
+        }
+
+        return capitalizeLetters(sentence.toString().trim(), 1);
+    }
 }

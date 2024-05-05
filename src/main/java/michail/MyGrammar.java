@@ -26,7 +26,6 @@ public class MyGrammar {
         // Create instances of terminal symbols
         this.I = new Terminal("I");
         this.you = new Terminal("you");
-        this.pythonCoder = new Terminal("Python coder");
         this.errors = new Terminal("errors");
         this.cookies = new Terminal("cookies");
         this.programmer = new Terminal("programmer");
@@ -55,7 +54,7 @@ public class MyGrammar {
 
         // Create a list of all terminals
         this.terminals = List.of(
-                I, you, pythonCoder, errors, cookies, programmer, theory, cat, sleeping,
+                I, you, errors, cookies, programmer, theory, cat, sleeping,
                 loves, enjoys, likes, wonders, want, wants, love, enjoy, like, wonder,
                 but, or, and, comma, dotSymbol, exclamation
         );
@@ -74,7 +73,6 @@ public class MyGrammar {
         rules.add(new CFGRule(conjunction, new Expression(List.of(and))));
         rules.add(new CFGRule(pronoun, new Expression(List.of(I))));
         rules.add(new CFGRule(pronoun, new Expression(List.of(you))));
-        rules.add(new CFGRule(noun, new Expression(List.of(pythonCoder))));
         rules.add(new CFGRule(noun, new Expression(List.of(errors))));
         rules.add(new CFGRule(noun, new Expression(List.of(cookies))));
         rules.add(new CFGRule(noun, new Expression(List.of(programmer))));
